@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"sort"
+	"time"
 )
 
 // Loot represents an object we can add to the bag. A loot has a weight and a value.
@@ -84,8 +85,12 @@ func main() {
 
 	const expectedValue = 55
 	var expectedSet = []Loot{t2, t3}
+	start := time.Now()
 	var valueToTest, treasuresToTest = Knapsack(capa, treasures)
+	end := time.Now()
 	sort.Sort(ByWeight(*treasuresToTest))
+	fmt.Printf("Knapsack computation took %s\n", end.Sub(start))
 	fmt.Printf("Value: %d\nExpected Value: %d\n", valueToTest, expectedValue)
 	fmt.Printf("Set: %s\nExpected Set: %s\n", expectedSet, expectedSet)
+
 }
