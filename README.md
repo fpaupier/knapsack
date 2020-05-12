@@ -1,2 +1,2 @@
-# knapsack
-A knapsack implementation in go
+# knapsack Go
+A knapsack implementation in go.
