@@ -24,11 +24,8 @@ func Knapsack(capacity int, treasures []Treasure) (int, *[]Treasure) {
 	for i, t := range treasures {
 		t_idx := i + 1
 		dp[t_idx] = make([][]Treasure, capacity+1)
-		row := make([][]Treasure, capacity+1)
 		for w := 0; w < capacity+1; w++ {
-			elem := make([]Treasure, nTreasures)
-			if i == 0 || w == 0 {
-				row[w] = elem
+			if w == 0 {
 				continue
 			}
 			var maxValWithoutCurrentTreasure = getTotalValue(&dp[t_idx-1][w])
@@ -36,7 +33,7 @@ func Knapsack(capacity int, treasures []Treasure) (int, *[]Treasure) {
 
 			if w >= t.weight {
 				var numTimesTFit = w / t.weight
-				maxValWithCurrentTreasure = t.weight * numTimesTFit
+				maxValWithCurrentTreasure = t.value * numTimesTFit
 				var remainingCapacity = w - t.weight*numTimesTFit
 				maxValWithCurrentTreasure += getTotalValue(&dp[t_idx-1][remainingCapacity])
 
@@ -50,9 +47,7 @@ func Knapsack(capacity int, treasures []Treasure) (int, *[]Treasure) {
 					dp[t_idx][w] = dp[t_idx-1][w]
 				}
 			}
-			row[w] = elem
 		}
-		dp[i] = row
 	}
 	var tot = getTotalValue(&dp[nTreasures][capacity])
 
