@@ -72,3 +72,26 @@ func TestKnapsackExpectedSetNominal(t *testing.T) {
 		t.Errorf("Expected %s, got %s", expectedSet, setToTest)
 	}
 }
+
+func TestKnapsackFullOneItem(t *testing.T) {
+	var capacity = 50
+
+	var l1 = Loot{10, 60}
+	var l2 = Loot{20, 100}
+	var l3 = Loot{30, 120}
+
+	var treasures = []Loot{l1, l2, l3}
+
+	var valueToTest, setToTest = Knapsack(capacity, treasures)
+	const expectedValue = 300
+
+	var expectedSet = []Loot{l1, l1, l1, l1, l1}
+	sort.Sort(ByWeight(*setToTest))
+
+	if lootsEq(expectedSet, *setToTest) == false {
+		t.Errorf("Expected set %s, got %s", expectedSet, *setToTest)
+	}
+	if expectedValue != valueToTest {
+		t.Errorf("Expected value %d, got %d", expectedValue, valueToTest)
+	}
+}
