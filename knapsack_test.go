@@ -16,6 +16,7 @@ var loot9 = Loot{3, 1}
 var loot10 = Loot{2, 2}
 var loot11 = Loot{3, 3}
 var loot12 = Loot{1, 2}
+var loot13 = Loot{11, 2}
 
 // Helper function to compare slices of Loot.
 func lootsEq(a, b []Loot) bool {
@@ -24,8 +25,14 @@ func lootsEq(a, b []Loot) bool {
 	if (a == nil) != (b == nil) {
 		return false
 	}
-	if len(a) != len(b) {
+	lenA := len(a)
+	if lenA != len(b) {
 		return false
+	}
+
+	// Edge case of empty list that are equal.
+	if lenA == 0 {
+		return true
 	}
 
 	for idx, aItm := range a {
@@ -89,6 +96,12 @@ var tables = []struct {
 		20,
 		[]Loot{loot12, loot12, loot12, loot12, loot12, loot12, loot12, loot12, loot12, loot12},
 	},
+	{
+		[]Loot{loot13},
+		10,
+		0,
+		nil,
+	},
 }
 
 // Iterate over the test case defined in the test table
@@ -104,21 +117,6 @@ func TestKnapsack(t *testing.T) {
 	}
 }
 
-//
-//def test_6():
-//# Empty set
-//capa: int = 10
-//
-//t1 = Treasure(11, 2)
-//
-//treasures: List[Treasure] = [t1]
-//expected_treasures: List[Treasure] = []
-//expected: int = 0
-//value_to_test, set_to_test = max_possible_treasure_value(capa, treasures)
-//assert value_to_test == expected
-//assert expected_treasures == set_to_test
-//
-//
 //def test_7():
 //# Big input
 //capa: int = 100000
