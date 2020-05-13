@@ -2,42 +2,40 @@ package knapsack
 
 import (
 	"fmt"
-	"sort"
-	"time"
 )
 
-// Loot represents an object we can add to the bag. A loot has a weight and a value.
-// Weight must be strictly positive; weight > 0.
-// Value must be positive; value >= 0.
-// In a knapsack problem, we want to select the Loot so that they maximize the total value.
+// Loot represents an object we can add to the bag. A loot has a Weight and a Value.
+// Weight must be strictly positive; Weight > 0.
+// Value must be positive; Value >= 0.
+// In a knapsack problem, we want to select the Loot so that they maximize the total Value.
 type Loot struct {
-	weight int
-	value  int
+	Weight int `json:"weight"`
+	Value  int `json:"value"`
 }
 
 // Implements the fmt.String interface to get the representation of a Loot as a string.
 func (t Loot) String() string {
-	return fmt.Sprintf("(weight: %d, value: %d)", t.weight, t.value)
+	return fmt.Sprintf("(Weight: %d, Value: %d)", t.Weight, t.Value)
 }
 
-// ByWeight implements sort.Interface for []Loot based on the weight field.
+// ByWeight implements sort.Interface for []Loot based on the Weight field.
 type ByWeight []Loot
 
 func (a ByWeight) Len() int           { return len(a) }
 func (a ByWeight) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
-func (a ByWeight) Less(i, j int) bool { return a[i].weight < a[j].weight }
+func (a ByWeight) Less(i, j int) bool { return a[i].Weight < a[j].Weight }
 
-// Go through an array of Loot, return the sum of the value.
+// Go through an array of Loot, return the sum of the Value.
 // The array of Loot is passed by reference to avoid passing heavy objects.
 func getTotalValue(treasures *[]Loot) int {
 	var tot = 0
 	for _, t := range *treasures {
-		tot += t.value
+		tot += t.Value
 	}
 	return tot
 }
 
-// Compute the best value possible to store within a Knapsack of a given `capacity`.
+// Compute the best Value possible to store within a Knapsack of a given `capacity`.
 func Knapsack(capacity int, loots []Loot) (int, *[]Loot) {
 	// Edge case of negative capacity, immediately return
 	if capacity <= 0 {
@@ -63,15 +61,15 @@ func Knapsack(capacity int, loots []Loot) (int, *[]Loot) {
 			var maxValWithoutCurrentTreasure = getTotalValue(&dp[tIdx-1][w])
 			var maxValWithCurrentTreasure = 0
 
-			if w >= t.weight {
+			if w >= t.Weight {
 				// Handle edge case of negative weights
-				if t.weight <= 0 {
+				if t.Weight <= 0 {
 					dp[tIdx][w] = dp[tIdx-1][w]
 					continue
 				}
-				var numTimesTFit = w / t.weight
-				maxValWithCurrentTreasure = t.value * numTimesTFit
-				var remainingCapacity = w - t.weight*numTimesTFit
+				var numTimesTFit = w / t.Weight
+				maxValWithCurrentTreasure = t.Value * numTimesTFit
+				var remainingCapacity = w - t.Weight*numTimesTFit
 				maxValWithCurrentTreasure += getTotalValue(&dp[tIdx-1][remainingCapacity])
 
 				if maxValWithCurrentTreasure > maxValWithoutCurrentTreasure {
@@ -89,26 +87,4 @@ func Knapsack(capacity int, loots []Loot) (int, *[]Loot) {
 	var tot = getTotalValue(&dp[nLoots][capacity])
 
 	return tot, &dp[nLoots][capacity]
-}
-
-func main() {
-	fmt.Printf("Hello Knapsack\n")
-	var capa = 5
-
-	var t1 = Loot{1, 1}
-	var t2 = Loot{2, 25}
-	var t3 = Loot{3, 30}
-	var t5 = Loot{5, 50}
-	var treasures = []Loot{t1, t2, t3, t5}
-
-	const expectedValue = 55
-	var expectedSet = []Loot{t2, t3}
-	start := time.Now()
-	var valueToTest, treasuresToTest = Knapsack(capa, treasures)
-	end := time.Now()
-	sort.Sort(ByWeight(*treasuresToTest))
-	fmt.Printf("Knapsack computation took %s\n", end.Sub(start))
-	fmt.Printf("Value: %d\nExpected Value: %d\n", valueToTest, expectedValue)
-	fmt.Printf("Set: %s\nExpected Set: %s\n", expectedSet, expectedSet)
-
 }
