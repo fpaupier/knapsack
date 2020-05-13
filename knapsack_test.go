@@ -88,6 +88,12 @@ func TestKnapsack(t *testing.T) {
 			[]Loot{loot2, loot3},
 		},
 		{
+			[]Loot{negativeValueLoot},
+			5,
+			0, // best thing to do here is to not take the loot at all
+			nil,
+		},
+		{
 			[]Loot{negativeValueLoot, loot1, loot2, loot3},
 			5,
 			55,
