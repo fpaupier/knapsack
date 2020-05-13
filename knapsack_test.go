@@ -14,6 +14,8 @@ var loot7 = Loot{7, 6}
 var loot8 = Loot{6, 7}
 var loot9 = Loot{3, 1}
 var loot10 = Loot{2, 2}
+var loot11 = Loot{3, 3}
+var loot12 = Loot{1, 2}
 
 // Helper function to compare slices of Loot.
 func lootsEq(a, b []Loot) bool {
@@ -81,6 +83,12 @@ var tables = []struct {
 		4,
 		[]Loot{loot10, loot10},
 	},
+	{
+		[]Loot{loot10, loot11, loot12},
+		10,
+		20,
+		[]Loot{loot12, loot12, loot12, loot12, loot12, loot12, loot12, loot12, loot12, loot12},
+	},
 }
 
 // Iterate over the test case defined in the test table
@@ -96,20 +104,6 @@ func TestKnapsack(t *testing.T) {
 	}
 }
 
-//
-//def test_5():
-//capa: int = 10
-//
-//t1 = Treasure(1, 2)
-//t2 = Treasure(2, 2)
-//t3 = Treasure(3, 3)
-//treasures: List[Treasure] = [t1, t2, t3]
-//expected_treasures: List[Treasure] = [t1] * 10
-//expected: int = 20
-//value_to_test, set_to_test = max_possible_treasure_value(capa, treasures)
-//assert value_to_test == expected
-//assert expected_treasures == set_to_test
-//
 //
 //def test_6():
 //# Empty set
