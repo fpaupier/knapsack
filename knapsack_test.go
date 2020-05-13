@@ -82,8 +82,14 @@ func TestKnapsack(t *testing.T) {
 			[]Loot{loot2, loot3},
 		},
 		{
+			[]Loot{loot1, loot2, loot3},
+			-10, // Knapsack with negative capacity should return immediately a 0 maxValue
+			0,
+			nil,
+		},
+		{
 			[]Loot{loot1, loot2},
-			0, // Knapsack with negative capacity should return immediately a 0 maxValue
+			0, // Knapsack with 0 capacity should return immediately a 0 maxValue
 			0,
 			nil,
 		},
