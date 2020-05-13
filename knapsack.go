@@ -42,6 +42,13 @@ func Knapsack(capacity int, loots []Loot) (int, *[]Loot) {
 		return 0, nil
 	}
 	var nLoots = len(loots)
+
+	// Edge case of empty loots, immediately return
+	if nLoots == 0 {
+		return 0, nil
+	}
+
+	// Solve Knapsack using dynamic programming, dp is our 2D DP array
 	var dp = make([][][]Loot, nLoots+1)
 	dp[0] = make([][]Loot, capacity+1)
 	for i, t := range loots {
