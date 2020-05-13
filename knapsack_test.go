@@ -1,14 +1,15 @@
 package main
 
 import (
-	"sort"
 	"testing"
 )
 
 var t1 = Loot{1, 1}
 var t2 = Loot{2, 25}
 var t3 = Loot{3, 30}
-var t5 = Loot{5, 50}
+var l1 = Loot{10, 60}
+var l2 = Loot{20, 100}
+var l3 = Loot{30, 120}
 
 // Helper function to compare slices of Loot.
 func lootsEq(a, b []Loot) bool {
@@ -45,53 +46,36 @@ func TestLootsIneq(t *testing.T) {
 	}
 }
 
-func TestKnapsackExpectedValueNominal(t *testing.T) {
-	var capa = 5
-
-	var treasures = []Loot{t1, t2, t3, t5}
-
-	const expectedValue = 55
-
-	var valueToTest, _ = Knapsack(capa, treasures)
-
-	if valueToTest != expectedValue {
-		t.Errorf("Expected %d, got %d", expectedValue, valueToTest)
-	}
+// Define test tables on which to iterate to test Knapsack
+var tables = []struct {
+	loots         []Loot
+	capacity      int
+	expectedValue int
+	expectedLoots []Loot
+}{
+	{
+		[]Loot{t1, t2, t3},
+		5,
+		55,
+		[]Loot{t2, t3},
+	},
+	{
+		[]Loot{l1, l2, l3},
+		50,
+		300,
+		[]Loot{l1, l1, l1, l1, l1},
+	},
 }
 
-func TestKnapsackExpectedSetNominal(t *testing.T) {
-	var capa = 5
-
-	var treasures = []Loot{t1, t2, t3, t5}
-
-	var _, setToTest = Knapsack(capa, treasures)
-	var expectedSet = []Loot{t2, t3}
-	sort.Sort(ByWeight(*setToTest))
-
-	if lootsEq(expectedSet, *setToTest) == false {
-		t.Errorf("Expected %s, got %s", expectedSet, setToTest)
-	}
-}
-
-func TestKnapsackFullOneItem(t *testing.T) {
-	var capacity = 50
-
-	var l1 = Loot{10, 60}
-	var l2 = Loot{20, 100}
-	var l3 = Loot{30, 120}
-
-	var treasures = []Loot{l1, l2, l3}
-
-	var valueToTest, setToTest = Knapsack(capacity, treasures)
-	const expectedValue = 300
-
-	var expectedSet = []Loot{l1, l1, l1, l1, l1}
-	sort.Sort(ByWeight(*setToTest))
-
-	if lootsEq(expectedSet, *setToTest) == false {
-		t.Errorf("Expected set %s, got %s", expectedSet, *setToTest)
-	}
-	if expectedValue != valueToTest {
-		t.Errorf("Expected value %d, got %d", expectedValue, valueToTest)
+// Iterate over the test case defined in the test table
+func TestKnapsack(t *testing.T) {
+	for _, table := range tables {
+		var valueToTest, setToTest = Knapsack(table.capacity, table.loots)
+		if valueToTest != table.expectedValue {
+			t.Errorf("Value Error - Expected %d, got %d", table.expectedValue, valueToTest)
+		}
+		if lootsEq(*setToTest, table.expectedLoots) == false {
+			t.Errorf("Loots selection Error - Expected %s, got %s", table.expectedLoots, *setToTest)
+		}
 	}
 }
