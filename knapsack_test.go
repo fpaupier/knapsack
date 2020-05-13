@@ -94,6 +94,12 @@ func TestKnapsack(t *testing.T) {
 			[]Loot{loot2, loot3},
 		},
 		{
+			[]Loot{zeroWeightLoot, loot1, loot2, loot3},
+			5,
+			55,
+			[]Loot{loot2, loot3},
+		},
+		{
 			[]Loot{negativeWeightLoot, loot1, loot2, loot3},
 			5,
 			55,
