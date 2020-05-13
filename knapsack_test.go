@@ -82,6 +82,12 @@ func TestKnapsack(t *testing.T) {
 			[]Loot{loot2, loot3},
 		},
 		{
+			[]Loot{loot1, loot2},
+			0, // Knapsack with negative capacity should return immediately a 0 maxValue
+			0,
+			nil,
+		},
+		{
 			[]Loot{},
 			50,
 			0,
@@ -130,6 +136,13 @@ func TestKnapsack(t *testing.T) {
 		var valueToTest, setToTest = Knapsack(table.capacity, table.loots)
 		if valueToTest != table.expectedValue {
 			t.Errorf("Value Error - Expected %d, got %d", table.expectedValue, valueToTest)
+		}
+		if setToTest == nil {
+			if table.expectedLoots != nil {
+				t.Errorf("Loots selection Error - Expected %s, got <nil>", table.expectedLoots)
+			} else {
+				continue
+			}
 		}
 		if lootsEq(*setToTest, table.expectedLoots) == false {
 			t.Errorf("Loots selection Error - Expected %s, got %s", table.expectedLoots, *setToTest)
