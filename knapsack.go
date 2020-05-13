@@ -36,11 +36,15 @@ func getTotalValue(treasures *[]Loot) int {
 }
 
 // Compute the best value possible to store within a Knapsack of a given `capacity`.
-func Knapsack(capacity int, treasures []Loot) (int, *[]Loot) {
-	var nTreasures = len(treasures)
+func Knapsack(capacity int, loots []Loot) (int, *[]Loot) {
+	// Edge case of negative capacity, immediately return
+	if capacity <= 0 {
+		return 0, nil
+	}
+	var nTreasures = len(loots)
 	var dp = make([][][]Loot, nTreasures+1)
 	dp[0] = make([][]Loot, capacity+1)
-	for i, t := range treasures {
+	for i, t := range loots {
 		t_idx := i + 1
 		dp[t_idx] = make([][]Loot, capacity+1)
 		for w := 0; w < capacity+1; w++ {
