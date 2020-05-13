@@ -168,7 +168,7 @@ func TestKnapsack(t *testing.T) {
 		{
 			[]Loot{loot14, loot10, loot15},
 			bigCapacity,
-			bigCapacity * loot14.value,
+			bigCapacity * loot14.Value,
 			expectedLootsBigCapacityTestCase,
 		},
 	}
