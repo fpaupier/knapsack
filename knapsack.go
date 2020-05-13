@@ -54,29 +54,29 @@ func Knapsack(capacity int, loots []Loot) (int, *[]Loot) {
 	var dp = make([][][]Loot, nLoots+1)
 	dp[0] = make([][]Loot, capacity+1)
 	for i, t := range loots {
-		t_idx := i + 1
-		dp[t_idx] = make([][]Loot, capacity+1)
+		tIdx := i + 1
+		dp[tIdx] = make([][]Loot, capacity+1)
 		for w := 0; w < capacity+1; w++ {
 			if w == 0 {
 				continue
 			}
-			var maxValWithoutCurrentTreasure = getTotalValue(&dp[t_idx-1][w])
+			var maxValWithoutCurrentTreasure = getTotalValue(&dp[tIdx-1][w])
 			var maxValWithCurrentTreasure = 0
 
 			if w >= t.weight {
 				var numTimesTFit = w / t.weight
 				maxValWithCurrentTreasure = t.value * numTimesTFit
 				var remainingCapacity = w - t.weight*numTimesTFit
-				maxValWithCurrentTreasure += getTotalValue(&dp[t_idx-1][remainingCapacity])
+				maxValWithCurrentTreasure += getTotalValue(&dp[tIdx-1][remainingCapacity])
 
 				if maxValWithCurrentTreasure > maxValWithoutCurrentTreasure {
 					var addenda = make([]Loot, numTimesTFit)
 					for k := 0; k < numTimesTFit; k++ {
 						addenda[k] = t
 					}
-					dp[t_idx][w] = append(dp[t_idx-1][remainingCapacity], addenda...)
+					dp[tIdx][w] = append(dp[tIdx-1][remainingCapacity], addenda...)
 				} else {
-					dp[t_idx][w] = dp[t_idx-1][w]
+					dp[tIdx][w] = dp[tIdx-1][w]
 				}
 			}
 		}
