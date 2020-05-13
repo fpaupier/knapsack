@@ -17,6 +17,8 @@ var loot10 = Loot{2, 2}
 var loot11 = Loot{3, 3}
 var loot12 = Loot{1, 2}
 var loot13 = Loot{11, 2}
+var loot14 = Loot{1, 4}
+var loot15 = Loot{3, 4}
 
 // Helper function to compare slices of Loot.
 func lootsEq(a, b []Loot) bool {
@@ -59,53 +61,65 @@ func TestLootsIneq(t *testing.T) {
 	}
 }
 
-// Define test tables on which to iterate to test Knapsack
-var tables = []struct {
-	loots         []Loot
-	capacity      int
-	expectedValue int
-	expectedLoots []Loot
-}{
-	{
-		[]Loot{loot1, loot2, loot3},
-		5,
-		55,
-		[]Loot{loot2, loot3},
-	},
-	{
-		[]Loot{loot4, loot5, loot6},
-		50,
-		300,
-		[]Loot{loot4, loot4, loot4, loot4, loot4},
-	},
-	{
-		[]Loot{loot7, loot8},
-		10,
-		7,
-		[]Loot{loot8},
-	},
-	{
-		[]Loot{loot9, loot10},
-		5,
-		4,
-		[]Loot{loot10, loot10},
-	},
-	{
-		[]Loot{loot10, loot11, loot12},
-		10,
-		20,
-		[]Loot{loot12, loot12, loot12, loot12, loot12, loot12, loot12, loot12, loot12, loot12},
-	},
-	{
-		[]Loot{loot13},
-		10,
-		0,
-		nil,
-	},
-}
-
-// Iterate over the test case defined in the test table
+// Test Knapsack implementation on various use cases
 func TestKnapsack(t *testing.T) {
+	// Define test tables on which to iterate to test Knapsack
+	var bigCapacity = 1000
+	var expectedLootsBigCapacityTestCase []Loot
+	for j := 0; j < bigCapacity; j++ {
+		expectedLootsBigCapacityTestCase = append(expectedLootsBigCapacityTestCase, loot14)
+	}
+	var tables = []struct {
+		loots         []Loot
+		capacity      int
+		expectedValue int
+		expectedLoots []Loot
+	}{
+		{
+			[]Loot{loot1, loot2, loot3},
+			5,
+			55,
+			[]Loot{loot2, loot3},
+		},
+		{
+			[]Loot{loot4, loot5, loot6},
+			50,
+			300,
+			[]Loot{loot4, loot4, loot4, loot4, loot4},
+		},
+		{
+			[]Loot{loot7, loot8},
+			10,
+			7,
+			[]Loot{loot8},
+		},
+		{
+			[]Loot{loot9, loot10},
+			5,
+			4,
+			[]Loot{loot10, loot10},
+		},
+		{
+			[]Loot{loot10, loot11, loot12},
+			10,
+			20,
+			[]Loot{loot12, loot12, loot12, loot12, loot12, loot12, loot12, loot12, loot12, loot12},
+		},
+		{
+			[]Loot{loot13},
+			10,
+			0,
+			nil,
+		},
+		{
+			[]Loot{loot14, loot10, loot15},
+			bigCapacity,
+			bigCapacity * loot14.value,
+			expectedLootsBigCapacityTestCase,
+		},
+	}
+
+	// Iterate over the test case defined in the test table
 	for _, table := range tables {
 		var valueToTest, setToTest = Knapsack(table.capacity, table.loots)
 		if valueToTest != table.expectedValue {
@@ -116,18 +130,3 @@ func TestKnapsack(t *testing.T) {
 		}
 	}
 }
-
-//def test_7():
-//# Big input
-//capa: int = 100000
-//
-//t1 = Treasure(1, 4)
-//t2 = Treasure(2, 2)
-//t3 = Treasure(3, 4)
-//
-//treasures: List[Treasure] = [t1, t2, t3]
-//expected_treasures: List[Treasure] = [t1] * capa
-//expected: int = capa * t1.value
-//value_to_test, set_to_test = max_possible_treasure_value(capa, treasures)
-//assert value_to_test == expected
-//assert expected_treasures == set_to_test
