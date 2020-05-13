@@ -64,6 +64,11 @@ func Knapsack(capacity int, loots []Loot) (int, *[]Loot) {
 			var maxValWithCurrentTreasure = 0
 
 			if w >= t.weight {
+				// Handle edge case of negative weights
+				if t.weight <= 0 {
+					dp[tIdx][w] = dp[tIdx-1][w]
+					continue
+				}
 				var numTimesTFit = w / t.weight
 				maxValWithCurrentTreasure = t.value * numTimesTFit
 				var remainingCapacity = w - t.weight*numTimesTFit

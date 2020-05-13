@@ -7,7 +7,7 @@ import (
 // illegal loots
 var negativeValueLoot = Loot{1, -1}
 var negativeWeightLoot = Loot{-1, 1}
-var zeroWeightLoot = Loot{-1, 1}
+var zeroWeightLoot = Loot{0, 1}
 
 // legal loots
 var loot1 = Loot{1, 1}
