@@ -41,8 +41,8 @@ func Knapsack(capacity int, loots []Loot) (int, *[]Loot) {
 	if capacity <= 0 {
 		return 0, nil
 	}
-	var nTreasures = len(loots)
-	var dp = make([][][]Loot, nTreasures+1)
+	var nLoots = len(loots)
+	var dp = make([][][]Loot, nLoots+1)
 	dp[0] = make([][]Loot, capacity+1)
 	for i, t := range loots {
 		t_idx := i + 1
@@ -72,9 +72,9 @@ func Knapsack(capacity int, loots []Loot) (int, *[]Loot) {
 			}
 		}
 	}
-	var tot = getTotalValue(&dp[nTreasures][capacity])
+	var tot = getTotalValue(&dp[nLoots][capacity])
 
-	return tot, &dp[nTreasures][capacity]
+	return tot, &dp[nLoots][capacity]
 }
 
 func main() {
