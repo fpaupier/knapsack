@@ -59,7 +59,7 @@ func TestLootsEq(t *testing.T) {
 	}
 }
 
-func TestLootsIneq(t *testing.T) {
+func TestLootsInequality(t *testing.T) {
 	var a = []Loot{loot1, loot2}
 	var b = []Loot{loot1, loot3}
 	if lootsEq(a, b) == true {
