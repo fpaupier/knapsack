@@ -7,6 +7,8 @@ import (
 )
 
 // Loot represents an object we can add to the bag. A loot has a weight and a value.
+// Weight must be strictly positive; weight > 0.
+// Value must be positive; value >= 0.
 // In a knapsack problem, we want to select the Loot so that they maximize the total value.
 type Loot struct {
 	weight int

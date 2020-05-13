@@ -4,6 +4,10 @@ import (
 	"testing"
 )
 
+// illegal loots
+var negativeValueLoot = Loot{1, -1}
+
+// legal loots
 var loot1 = Loot{1, 1}
 var loot2 = Loot{2, 25}
 var loot3 = Loot{3, 30}
@@ -77,6 +81,12 @@ func TestKnapsack(t *testing.T) {
 	}{
 		{
 			[]Loot{loot1, loot2, loot3},
+			5,
+			55,
+			[]Loot{loot2, loot3},
+		},
+		{
+			[]Loot{negativeValueLoot, loot1, loot2, loot3},
 			5,
 			55,
 			[]Loot{loot2, loot3},
