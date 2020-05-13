@@ -10,6 +10,7 @@ var t2 = Loot{2, 25}
 var t3 = Loot{3, 30}
 var t5 = Loot{5, 50}
 
+// Helper function to compare slices of Loot.
 func lootsEq(a, b []Loot) bool {
 
 	// If one is nil, the other must also be nil.
