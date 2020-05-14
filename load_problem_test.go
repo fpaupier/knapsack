@@ -1,27 +1,38 @@
 package knapsack
 
-import "testing"
+import (
+	"path/filepath"
+	"runtime"
+	"testing"
+)
 
 var loot16 = Loot{5, 50}
+
+// Constant to access test data
+const TestDataDir string = "test_data"
+
+// Util function to get current working directory.
+func getCurDir() string {
+	//ex, err := os.Executable()
+	_, curFilename, _, _ := runtime.Caller(1)
+	curDir := filepath.Dir(curFilename)
+	return curDir
+}
+
+var curDir = getCurDir()
+var testDataPath = filepath.Join(curDir, TestDataDir)
 
 func TestLoadProblemDefinitionFromJSON(t *testing.T) {
 
 	// Define test table on which to iterate
 	var testTable = []struct {
-		rawContent       string
+		fPath            string
 		expectedCapacity int
 		expectedLoots    []Loot
 		expectedError    error
 	}{
 		{
-			`{  "capacity": 5,
-						  "loots": [
-							{"weight":1, "value":1},
-							{"weight":2, "value":25},
-							{"weight":3, "value":30},
-							{"weight":5, "value":50}
-						  ]
-						}`,
+			filepath.Join(testDataPath, "test1.json"),
 			5,
 			[]Loot{loot1, loot2, loot3, loot16},
 			nil,
@@ -29,7 +40,7 @@ func TestLoadProblemDefinitionFromJSON(t *testing.T) {
 	}
 
 	for _, testCase := range testTable {
-		ProblemDefinitionToTest, err := LoadProblemDefinitionFromJSON(testCase.rawContent)
+		ProblemDefinitionToTest, err := LoadProblemDefinitionFromJSON(testCase.fPath)
 		if err != testCase.expectedError {
 			t.Errorf("Expected error %s got %s", testCase.expectedError, err)
 		}

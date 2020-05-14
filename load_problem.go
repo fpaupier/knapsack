@@ -3,6 +3,7 @@ package knapsack
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 )
 
 type ProblemDefinition struct {
@@ -11,10 +12,13 @@ type ProblemDefinition struct {
 }
 
 // Load a json file containing a capacity and a list of Loot.
-func LoadProblemDefinitionFromJSON(content string) (ProblemDefinition, error) {
-	textBytes := []byte(content)
+func LoadProblemDefinitionFromJSON(fPath string) (ProblemDefinition, error) {
+	textBytes, err := ioutil.ReadFile(fPath)
+	if err != nil {
+		return ProblemDefinition{}, err
+	}
 	problemDefinitionRecovered := ProblemDefinition{}
-	err := json.Unmarshal(textBytes, &problemDefinitionRecovered)
+	err = json.Unmarshal(textBytes, &problemDefinitionRecovered)
 	if err != nil {
 		fmt.Println(err)
 		return ProblemDefinition{}, err
