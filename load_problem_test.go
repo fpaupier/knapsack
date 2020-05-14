@@ -3,7 +3,16 @@ package knapsack
 import "testing"
 
 func TestLoadProblemDefinitionFromJSON(t *testing.T) {
-	ProblemDefinition1 := LoadProblemDefinitionFromJSON()
+	var content string = `{
+  "capacity": 5,
+  "loots": [
+    {"weight":1, "value":1},
+    {"weight":2, "value":25},
+    {"weight":3, "value":30},
+    {"weight":5, "value":50}
+  ]
+}`
+	ProblemDefinition1 := LoadProblemDefinitionFromJSON(content)
 	if ProblemDefinition1.Capacity != 5 {
 		t.Errorf("Expected capacity of 5 got %d", ProblemDefinition1.Capacity)
 	}
