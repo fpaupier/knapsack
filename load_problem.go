@@ -10,17 +10,14 @@ type ProblemDefinition struct {
 	Loots    []Loot `json:"loots"`
 }
 
-func LoadProblemDefinitionFromJSON(content string) ProblemDefinition {
-	// Load a json file containing capacity and a list of Loot
+// Load a json file containing a capacity and a list of Loot.
+func LoadProblemDefinitionFromJSON(content string) (ProblemDefinition, error) {
 	textBytes := []byte(content)
-
 	problemDefinitionRecovered := ProblemDefinition{}
-
 	err := json.Unmarshal(textBytes, &problemDefinitionRecovered)
-
 	if err != nil {
 		fmt.Println(err)
-		return ProblemDefinition{}
+		return ProblemDefinition{}, err
 	}
-	return problemDefinitionRecovered
+	return problemDefinitionRecovered, nil
 }
