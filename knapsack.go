@@ -1,4 +1,4 @@
-package knapsack
+package main
 
 import (
 	"fmt"
@@ -17,13 +17,6 @@ type Loot struct {
 func (t Loot) String() string {
 	return fmt.Sprintf("(Weight: %d, Value: %d)", t.Weight, t.Value)
 }
-
-// ByWeight implements sort.Interface for []Loot based on the Weight field.
-type ByWeight []Loot
-
-func (a ByWeight) Len() int           { return len(a) }
-func (a ByWeight) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
-func (a ByWeight) Less(i, j int) bool { return a[i].Weight < a[j].Weight }
 
 // Go through an array of Loot, return the sum of the Value.
 // The array of Loot is passed by reference to avoid passing heavy objects.

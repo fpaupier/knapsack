@@ -1,4 +1,4 @@
-package knapsack
+package main
 
 import (
 	"encoding/json"
