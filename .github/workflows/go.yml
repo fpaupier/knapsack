@@ -30,8 +30,14 @@ jobs:
             dep ensure
         fi
 
-    - name: Build
-      run: go build -v .
+    - name: Build Knapsack
+      run: go build -v pkg/knapsack
+
+    - name: Build Knapsack CLI
+        run: go build -v cmd/knapsack-cli
+
+  - name: Build Knapsack Test
+      run: go build -v test/
 
     - name: Test
-      run: go test -v .
+      run: go test -v test/
