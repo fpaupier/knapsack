@@ -1,8 +1,10 @@
 package knapsack
 
 import (
+	"os"
 	"path/filepath"
 	"runtime"
+	"syscall"
 	"testing"
 )
 
@@ -37,10 +39,28 @@ func TestLoadProblemDefinitionFromJSON(t *testing.T) {
 			[]Loot{loot1, loot2, loot3, loot16},
 			nil,
 		},
+		{
+			filepath.Join(testDataPath, "fakePath.json"),
+			0,
+			nil,
+			&os.PathError{Op: "open", Path: filepath.Join(testDataPath, "fakePath.json"), Err: syscall.ENOENT},
+		},
 	}
 
 	for _, testCase := range testTable {
 		ProblemDefinitionToTest, err := LoadProblemDefinitionFromJSON(testCase.fPath)
+		if testCase.expectedError != nil {
+			if err == nil {
+				t.Errorf("Expected error %s got <nil>", testCase.expectedError)
+			} else {
+				if err.Error() != testCase.expectedError.Error() {
+					t.Errorf("Expected error %s got %s", testCase.expectedError, err)
+				} else {
+					// We encountered the expected error, no need to further check the capacity and expected result
+					continue
+				}
+			}
+		}
 		if err != testCase.expectedError {
 			t.Errorf("Expected error %s got %s", testCase.expectedError, err)
 		}
