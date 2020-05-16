@@ -1,6 +1,7 @@
-package main
+package test
 
 import (
+	"github.com/fpaupier/knapsack/pkg/knapsack"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -8,10 +9,10 @@ import (
 	"testing"
 )
 
-var loot16 = Loot{5, 50}
+var loot16 = knapsack.Loot{5, 50}
 
 // Constant to access test data
-const TestDataDir string = "test_data"
+const TestDataDir string = "data"
 
 // Util function to get current working directory.
 func getCurDir() string {
@@ -30,13 +31,13 @@ func TestLoadProblemDefinitionFromJSON(t *testing.T) {
 	var testTable = []struct {
 		fPath            string
 		expectedCapacity int
-		expectedLoots    []Loot
+		expectedLoots    []knapsack.Loot
 		expectedError    error
 	}{
 		{
 			filepath.Join(testDataPath, "test1.json"),
 			5,
-			[]Loot{loot1, loot2, loot3, loot16},
+			[]knapsack.Loot{loot1, loot2, loot3, loot16},
 			nil,
 		},
 		{
@@ -48,7 +49,7 @@ func TestLoadProblemDefinitionFromJSON(t *testing.T) {
 	}
 
 	for _, testCase := range testTable {
-		ProblemDefinitionToTest, err := LoadProblemDefinitionFromJSON(testCase.fPath)
+		ProblemDefinitionToTest, err := knapsack.LoadProblemDefinitionFromJSON(testCase.fPath)
 		if testCase.expectedError != nil {
 			if err == nil {
 				t.Errorf("Expected error %s got <nil>", testCase.expectedError)
